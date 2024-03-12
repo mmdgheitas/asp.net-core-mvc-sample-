@@ -1,0 +1,164 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model List<be.Sold>
+<!-- profile------------------------------->
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                        <div class="sidebar-profile sidebar-navigation">
+                            <section class="profile-box">
+                                <header class="profile-box-header-inline">
+                                    <div class="profile-avatar user-avatar profile-img">
+                                        <img src="~/theme/images/man.png">
+                                    </div>
+                                </header>
+                                <footer class="profile-box-content-footer">
+                                    <span class="profile-box-nameuser">@ViewBag.user.UserName</span>
+                                    <br />
+                                    <span class="profile-box-phone">شماره همراه :@ViewBag.user.mobile</span>
+                                    <div class="profile-box-tabs">
+                                        <a asp-action="Logout" class="profile-box-tab-sign-out">
+                                            <i class="mdi mdi-logout-variant"></i>خروج از حساب
+                                        </a>
+                                    </div>
+                                </footer>
+                            </section>
+                            <section class="profile-box">
+                                <ul class="profile-account-navs">
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a asp-action="profile" class="">
+                                            <i class="mdi mdi-account-outline"></i>
+                                            پروفایل
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="active">
+                                            <i class="mdi mdi-cart"></i>
+                                            همه سفارش ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-heart"></i>
+                                            لیست علاقه مندی
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-map-outline"></i>
+                                            آدرس ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-email-open-outline"></i>
+                                            نظرات
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-tooltip-text-outline"></i>
+                                            اطلاعات حساب
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="table-orders">
+                                    <table class="table table-profile-orders">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">شماره سفارش</th>
+                                                <th scope="col">وضعیت</th>
+                                                <th scope="col">مجموع</th>
+                                                <th scope="col">جزئیات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var i in Model)
+                                            {
+                                                <tr>
+                                                    <td class="order-code">@i.FactorId</td>
+                                                    @if (i.pay == true)
+                                                    {
+                                                        <td class="Waiting text-success">پرداخت شده</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="Waiting text-danger">پرداخت نشده</td>
+                                                    }
+                                                    <td class="totla">
+                                                        <span class="amount">
+                                                            @i.price
+                                                            <span>هزار تومان</span>
+                                                        </span>
+                                                    </td>
+                                                    <td class="detail">
+                                                        <a asp-action="check" asp-route-f="@i.id"
+                                                           class="btn btn-secondary d-block">نمایش</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <div class="profile-orders">
+                                        <div class="collapse">
+                                            <div class="profile-orders-item">
+                                                <div class="profile-orders-header">
+                                                    <a href="profile-order-2.html"
+                                                       class="profile-orders-header-details">
+                                                        <div class="profile-orders-header-summary">
+                                                            <div class="profile-orders-header-row">
+                                                                <span class="profile-orders-header-id">DKC-79356178</span>
+                                                                <span class="profile-orders-header-state text-success">
+                                                                    پرداخت
+                                                                    شده
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <!-- <hr class="ui-separator"> -->
+                                                    <div class="profile-orders-header-data">
+                                                        <div class="profile-info-row">
+                                                            <div class="profile-info-label">تاریخ ثبت سفارش</div>
+                                                            <div class="profile-info-value">
+                                                                سه شنبه 4 فروردین 99
+                                                            </div>
+                                                        </div>
+                                                        <div class="profile-info-row">
+                                                            <div class="profile-info-label">مبلغ قابل پرداخت</div>
+                                                            <div class="profile-info-value">0</div>
+                                                        </div>
+                                                        <div class="profile-info-row">
+                                                            <div class="profile-info-label">مبلغ کل</div>
+                                                            <div class="profile-info-value">
+                                                                <span class="amount">
+                                                                    2,400,000
+                                                                    <span>تومان</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- profile------------------------------->

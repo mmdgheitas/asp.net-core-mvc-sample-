@@ -1,0 +1,135 @@
+﻿@{
+    Layout = "_Layout";
+}
+@using be;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<user> Userm
+<!-- Modal -->
+<!-- profile------------------------------->
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                        <div class="sidebar-profile sidebar-navigation">
+                            <section class="profile-box">
+                                <header class="profile-box-header-inline">
+                                    <div class="profile-avatar user-avatar profile-img">
+                                        <img src="~/theme/images/man.png">
+                                    </div>
+                                </header>
+                                <footer class="profile-box-content-footer">
+                                    <span class="profile-box-nameuser">@ViewBag.h.UserName </span>
+                                    <br />
+
+                                    <span class="profile-box-phone">شماره همراه : @ViewBag.h.mobile</span>
+                                    <div class="profile-box-tabs">
+                                        <a asp-action="logout" class="profile-box-tab-sign-out">
+                                            <i class="mdi mdi-logout-variant"></i>خروج از حساب
+                                        </a>
+                                    </div>
+                                </footer>
+                            </section>
+                            <section class="profile-box">
+                                <ul class="profile-account-navs">
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="active">
+                                            <i class="mdi mdi-account-outline"></i>
+                                            پروفایل
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <form asp-action="orders" enctype="multipart/form-data" method="post">
+                                            <input name="u" value="@ViewBag.h.UserName" hidden />
+                                            <input name="p" value="@ViewBag.h.pass" hidden />
+                                            <a><button type="submit" class="account-link" style="background:none">سفارشات من</button></a>
+                                        </form>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-heart"></i>
+                                            لیست علاقه مندی
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-map-outline"></i>
+                                            آدرس ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-email-open-outline"></i>
+                                            نظرات
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a asp-action="change" asp-route-id="@ViewBag.h.Id" class="">
+                                            <i class="mdi mdi-tooltip-text-outline"></i>
+                                            اطلاعات حساب
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <table class="table table-profile">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-50">
+                                                <div class="title">نام و نام خانوادگی:</div>
+                                                <div class="value">@ViewBag.h.name @ViewBag.h.family</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="title">پست الکترونیک :</div>
+                                                <div class="value">@ViewBag.h.Email</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="title">شماره تلفن همراه:</div>
+                                                <div class="value">@ViewBag.h.mobile</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="title"> آدرس :</div>
+                                                <div class="value">@ViewBag.h.address</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="profile">
+                                    <ul class="mb-0">
+                                        <li class="profile-item">
+                                            <div class="title">نام و نام خانوادگی:</div>
+                                            <div class="value">@ViewBag.h.name @ViewBag.h.family </div>
+                                        </li>
+                                        <li class="profile-item">
+                                            <div class="title">پست الکترونیک :</div>
+                                            <div class="value">@ViewBag.h.Email</div>
+                                        </li>
+                                        <li class="profile-item">
+                                            <div class="title">شماره تلفن همراه:</div>
+                                            <div class="value">@ViewBag.h.mobile</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="profile-edit-action">
+                                    <a asp-action="ChangeHuman" asp-route-id="@ViewBag.h.Id" class="link-spoiler-edit btn btn-secondary">ویرایش اطلاعات</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- profile------------------------------->

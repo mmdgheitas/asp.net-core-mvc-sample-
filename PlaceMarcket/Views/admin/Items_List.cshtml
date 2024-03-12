@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "this is page one title";
+    Layout = "_Layout_admin";
+}
+@model List<be.Items>
+
+
+
+
+
+<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
+    <div class="brand-sidebar">
+        <h1 class="logo-wrapper">
+            <a class="brand-logo darken-1">
+                <img class="hide-on-med-and-down" src="~/material/images/logo/materialize-logo-color.png" alt="materialize logo" /><img class="show-on-medium-and-down hide-on-med-and-up" src="~/material/images/logo/materialize-logo.png"
+                                                                                                                                        alt="materialize logo" /><span class="logo-text hide-on-med-and-down">متریالایز</span>
+            </a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a>
+        </h1>
+    </div>
+    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+        <li class="active bold">
+            <a asp-action="update_delete" class="waves-effect waves-cyan active" target="_blank">update_delete</a>
+        </li>
+        <li class="bold">
+            <a asp-action="solds" class="waves-effect waves-cyan" target="_blank">solds</a>
+        </li>
+        <li class="bold">
+            <a asp-action="Votes" class="waves-effect waves-cyan" target="_blank">Votes</a>
+        </li>
+    </ul>
+    <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+</aside>
+
+<div id="main">
+    <div class="row">
+        <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+        <div class="breadcrumbs-dark pb-0 pt-4" id="breadcrumbs-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col s10 m6 l6">
+                        <h5 class="breadcrumbs-title mt-0 mb-0"><span>جدول اساسی</span></h5>
+                        <ol class="breadcrumbs mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="index-2.html">خانه</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">جدول</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                جدول اساسی
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="container">
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <div id="highlight-table" class="card card card-default scrollspy">
+                                <div class="card-content">
+                                    <h4 class="card-title">جدول برجسته</h4>
+                                    <p class="mb-2">
+                                        اضافه کردن <code class=" language-markup">class="Highlight"</code> به برچسب جدول برای یک میز برجسته
+                                    </p>
+                                    <div class="row">
+                                        <div class="col s12">
+                                        </div>
+                                        <div class="col s12  table" style="    overflow-x: auto;
+    position: relative">
+                                            <table class="highlight">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-field="name">نام آیتم</th>
+                                                        <th data-field="code">کد آیتم</th>
+                                                        <th data-field="price">قیمت آیتم</th>
+                                                        <th data-field="size">سایز آیتم</th>
+                                                        <th data-field="color">رنگ آیتم</th>
+                                                        <th data-field="exist">موجودی آیتم</th>
+                                                        <th data-field="img">عکس آیتم</th>
+                                                        <th data-field="detail">توضیحات آیتم</th>
+                                                        <th data-field="detail">update/delete</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>@i.name</td>
+                                                            <td>@i.code_mahsoul</td>
+                                                            <td>@i.pris</td>
+                                                            <td>@i.size</td>
+                                                            <td>@i.color</td>
+                                                            <td>@i.exist</td>
+                                                            <td>@i.img_src</td>
+                                                            <td>@i.detail</td>
+                                                            <td><a asp-action="find" asp-route-code="@i.Id" class="btn-floating blue"><i class="material-icons">update</i></a></td>
+                                                            <td><a asp-action="delete" asp-route-id="@i.Id" class="btn-floating red"><i class="material-icons">delete</i></a></td>
+                                                        </tr>
+
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            @{
+                                                BLL.bladmin bla = new BLL.bladmin();
+                                                int a = bla.GetAllItems();
+                                                for (int i = 1; i <= a; i++)
+                                                {
+                                                    <a asp-action="Items_List" asp-route-s="@i">@i</a>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top">
+                    <a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
+                    <ul>
+                        <li><a href="css-helpers.html" class="btn-floating blue"><i class="material-icons">help_outline</i></a></li>
+                        <li><a href="cards-extended.html" class="btn-floating green"><i class="material-icons">widgets</i></a></li>
+                        <li><a href="app-calendar.html" class="btn-floating amber"><i class="material-icons">today</i></a></li>
+                        <li><a href="app-email.html" class="btn-floating red"><i class="material-icons">mail_outline</i></a></li>
+                        <li><a asp-action="addingPage" class="btn-floating red"><i class="material-icons">add</i></a></li>
+                        <li><a asp-action="solds" class="btn-floating green"><i class="material-icons">see</i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>

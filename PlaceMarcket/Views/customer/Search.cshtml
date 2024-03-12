@@ -1,0 +1,167 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model List<be.Items>
+
+@section links{
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آرشیو محصولات</title>
+    <!-- font---------------------------------------->
+    <link rel="stylesheet" href="~/theme/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="~/theme/css/vendor/materialdesignicons.css">
+    <!-- plugin-------------------------------------->
+    <link rel="stylesheet" href="~/theme/css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="~/theme/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/theme/css/vendor/noUISlider.min.css">
+    <link rel="stylesheet" href="~/theme/css/vendor/nice-select.css">
+    <!-- main-style---------------------------------->
+    <link rel="stylesheet" href="~/theme/css/main.css">
+    <link rel="stylesheet" href="~/theme/css/responsive.css">
+    <style>
+        b {
+            font-size: 20px
+        }
+    </style>
+}
+
+
+<div class="col-lg-8 pr">
+    <div class="header-search row text-right">
+        <div class="header-search-box">
+            <form asp-action="Search" class="form-search">
+                <input type="search" class="header-search-input" name="text" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                <div class="action-btns">
+                    <button class="btn btn-search" type="submit">
+                        <img src="/theme/images/search.png" alt="search">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- adplacement--------------------------->
+<div class="container-main adplacement">
+    <div class="d-block">
+        <div class="adplacement-container-row">
+            <div class="col-12">
+                <a href="#" class="adplacement-item mb-4">
+                    <div class="adplacement-sponsored_box">
+                        <img src="\images\Screenshot(8).png">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- adplacement--------------------------->
+<!-- slidre-product------------------------>
+<!-- arshive-product----------------------->
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row">
+            <div class="main-row">
+                <!-- start sidebar--------------------->
+                <div class="col-lg-12 col-md-12 col-xs-12 pl">
+                    <div class="shop-archive-content mt-3 d-block">
+                        <div class="product-items">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="Most-visited" role="tabpanel"
+                                     aria-labelledby="Most-visited-tab">
+                                    <div class="row">
+                                        @foreach (var i in Model)
+                                        {
+                                            <div class="col-lg-3 col-md-3 col-xs-12 order-1 d-block mb-3">
+                                                <section class="product-box product product-type-simple">
+                                                    <div class="thumb">
+                                                        <a asp-action="SingleProduct" asp-route-id="@i.Id" class="d-block">
+                                                            <img src="~/images/items/@i.img_src">
+                                                        </a>
+                                                    </div>
+                                                    <div class="title">
+                                                        <a asp-action="SingleProduct" asp-route-id="@i.Id">
+                                                            <b style="font-size:20px">@i.name</b>
+                                                        </a>
+                                                    </div>
+                                                    @if (i.exist == true)
+                                                    {
+                                                        <div class="title">
+                                                            <i>
+                                                                موجود
+                                                            </i>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="title">
+                                                            <i>
+                                                                نا موجود
+                                                            </i>
+                                                        </div>
+                                                    }
+                                                    <div class="price">
+                                                        <span class="amount">
+                                                            @i.pris
+                                                            <span> هزار تومان</span>
+                                                        </span>
+                                                    </div>
+                                                </section>
+                                            </div>
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination-product">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    @{
+                                        BLL.bladmin bla = new BLL.bladmin();
+                                        int a = bla.GetAllItems();
+                                        for (int i = 1; i <= a; i++)
+                                        {
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link active"
+                                                   asp-action="store" asp-route-s="@i">@i</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- arshive-product----------------------->
+
+
+
+@section scripts{
+    <script src="~/theme/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="~/theme/js/vendor/bootstrap.js"></script>
+    <!-- plugin----------------------------------------------------->
+    <script src="~/theme/js/vendor/owl.carousel.min.js"></script>
+    <script src="~/theme/js/vendor/jquery.countdown.js"></script>
+    <script src="~/theme/js/vendor/ResizeSensor.min.js"></script>
+    <script src="~/theme/js/vendor/theia-sticky-sidebar.min.js"></script>
+    <script src="~/theme/js/vendor/wNumb.js"></script>
+    <script src="~/theme/js/vendor/nouislider.min.js"></script>
+    <script src="~/theme/js/vendor/jquery.nice-select.min.js"></script>
+    <!-- main js---------------------------------------------------->
+    <script src="~/theme/js/main.js"></script>
+}

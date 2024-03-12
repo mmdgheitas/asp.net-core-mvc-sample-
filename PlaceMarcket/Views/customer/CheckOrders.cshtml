@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "_Layout_admin";
+}
+
+@model List<be.Sold>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container">
+                <div id="forgot-password" class="row">
+                    <div class="col s12 m12 l12 z-depth-4 offset-m4 card-panel border-radius-6 forgot-card bg-opacity-8">
+                        <form class="login-form" asp-action="CheckOrders">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <h5 class="ml-4">کد پیگیری خود را وارد کنید</h5>
+                                    <p class="ml-4">می توانید خرید خود را پیگیری کنید</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="email" type="text" name="f">
+                                    <label for="email" class="center-align">کد سفارش</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <button type="submit" class="btn waves-effect waves-light border-round gradient-45deg-purple-deep-orange col s12 mb-1">جستوجو</button>
+                                </div>
+                            </div>
+                        </form>
+                        @if (Model != null && Model.Count != 0)
+                        {
+                            <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                                <div class="profile-content">
+                                    <div class="profile-stats">
+                                        <div class="table-orders">
+                                            <table class="table table-profile-orders">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">شماره سفارش</th>
+                                                        <th scope="col">وضعیت</th>
+                                                        <th scope="col">مجموع</th>
+                                                        <th scope="col">جزئیات</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var i in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="order-code">@i.FactorId</td>
+                                                            @if (i.pay == true)
+                                                            {
+                                                                <td class="Waiting text-success">پرداخت شده</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="Waiting text-danger">پرداخت نشده</td>
+                                                            }
+                                                            <td class="totla">
+                                                                <span class="amount">
+                                                                    @i.price
+                                                                    <span>هزار تومان</span>
+                                                                </span>
+                                                            </td>
+                                                            <td class="detail">
+                                                                <a asp-action="Check_Single" asp-route-id="@i.id"
+                                                                   class="btn btn-secondary d-block">نمایش</a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+
+

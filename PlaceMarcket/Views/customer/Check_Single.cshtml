@@ -1,0 +1,169 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model be.Sold
+
+    <div class="nav-categories-overlay"></div>
+    <div class="overlay-search-box"></div>
+    <!-- header-------------------------------->
+    <!-- profile------------------------------->
+    <div class="container-main">
+        <div class="d-block">
+            <section class="profile-home">
+                <div class="col-lg">
+                    <div class="post-item-profile order-1 d-block">
+                        <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                            <div class="sidebar-profile sidebar-navigation">
+                                <section class="profile-box">
+                                    <header class="profile-box-header-inline">
+                                        <div class="profile-avatar user-avatar profile-img">
+                                            <img src="~/theme/images/man.png">
+                                        </div>
+                                    </header>
+                                    <footer class="profile-box-content-footer">
+                                        <span class="profile-box-nameuser">@Model.customer.UserName</span>
+                                        <br />
+                                        <span class="profile-box-phone">شماره همراه :@Model.customer.mobile</span>
+                                        <div class="profile-box-tabs">
+                                            <a asp-action="logout" class="profile-box-tab-sign-out">
+                                                <i class="mdi mdi-logout-variant"></i>خروج از حساب
+                                            </a>
+                                        </div>
+                                    </footer>
+                                </section>
+                                <section class="profile-box">
+                                    <ul class="profile-account-navs">
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a asp-action="profile" class="">
+                                                <i class="mdi mdi-account-outline"></i>
+                                                پروفایل
+                                            </a>
+                                        </li>
+                                        <li class="profile-account-nav-item navigation-link-dashboard">
+                                            <a asp-action="orders" class="active">
+                                                <i class="mdi mdi-cart"></i>
+                                                همه سفارش ها
+                                            </a>
+                                        </li>                                       
+                                    </ul>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                <div class="profile-stats">
+                                    <div class="table-order-view">
+                                        <h2 class="order-view-title mt-4 mb-3">جزییات سفارش </h2>
+                                        <table class="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">نام محصول</th>
+                                                    <th scope="col">مجموع</th>
+                                                    <th scope="col">وضعیت</th>
+                                                    <th scope="col">ادرس</th>
+                                                    <th scope="col">موبایل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="product-name">
+                                                    @Model.items.name
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="amount">
+                                                            <span> هزار تومان</span>
+                                                            @Model.price
+                                                        </span>
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="amount">
+                                                            @Model.pay
+                                                        </span>
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="amount">
+                                                            @Model..customer.address
+                                                        </span>
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="amount">
+                                                            @Model.customer.mobile
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            @*<tfoot>
+                                                <tr>
+                                                    <th scope="row">مجموع:</th>
+                                                    <td>
+                                                        <span class="amount">
+                                                            <span>تومان</span>
+                                                            40,000
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">حمل و نقل:</th>
+                                                    <td>حمل و نقل رایگان</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">روش پرداخت:</th>
+                                                    <td>انتقال مستقیم بانکی</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">تعداد</th>
+                                                    <td>1</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">قیمت نهایی:</th>
+                                                    <td>
+                                                        <span class="amount">
+                                                            <span>تومان</span>
+                                                            40,000
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>*@
+                                        </table>
+                                        <br>
+                                        <br>
+                                        <div class="order-view-customer">
+                                            <div class="box-header">
+                                                <span class="box-title">نشانی ما</span>
+                                            </div>
+                                            <div class="profile-address-item">
+                                                <div class="profile-address-content">
+                                                    <ul class="profile-address-info">
+                                                        <li>
+                                                            <div class="profile-address-info-item location">
+                                                                <span class="title-address">آدرس : </span>
+                                                                آذربایجان شرقی ، تبریز
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="profile-address-info-item location">
+                                                                <span class="title-address">ایمیل : </span>
+                                                                infoblackland.shop@gmail.com
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="profile-address-info-item location">
+                                                                <span class="title-address">شماره تلفن : </span>
+                                                                09211276811
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- profile------------------------------->

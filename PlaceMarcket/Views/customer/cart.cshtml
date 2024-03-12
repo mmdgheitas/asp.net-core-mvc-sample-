@@ -1,0 +1,202 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model List<be.Items>
+
+
+    <!-- Modal -->
+    <!-- header-------------------------------->
+    <!-- cart---------------------------------->
+    <div class="container-main">
+        <div class="d-block">
+
+            @if (Model.Count == 0 || Model == null)
+            {
+                <div class="main-row">
+                    <section class="cart-home">
+                        <div class="post-item-cart d-block order-2">
+                            <div class="content-page">
+                                <div class="cart-form">
+                                    <div class="cart-empty text-center d-block">
+                                        <div class="cart-empty-img mb-4 mt-4">
+                                            <img src="~/theme/images/shopping-cart.png">
+                                        </div>
+                                        <p class="cart-empty-title">سبد خرید شما در حال حاضر خالی است.</p>
+                                    <a asp-action="login_singin" class="btn account-btn btn-primary">ورود به حساب کاربری</a>
+                                        <div class="return-to-shop">
+                                            <a asp-action="index" class="backward btn btn-secondary">بازگشت به صفحه اصلی</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            }
+            else
+            {
+                <section class="cart-home">
+                    <div class="post-item-cart d-block order-2">
+                        <div class="content-page">
+                            <div class="cart-form">
+                                <form asp-action="pay" class="c-form" enctype="multipart/form-data">
+                                    <table class="table-cart cart table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="product-cart-name">نام محصول</th>
+                                                <th scope="col" class="product-cart-price">قیمت</th>
+                                                <th scope="col" class="product-cart-quantity">تعداد مورد نیاز</th>
+                                                <th scope="col" class="product-cart-Total">مجموع</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var i in Model)
+                                            {
+                                                <tr>
+                                                    <th scope="row" class="product-cart-name">
+                                                        <div class="product-thumbnail-img">
+                                                            <a href="#">
+                                                                <img src="~/images/items/@i.img_src">
+                                                            </a>
+                                                            <div class="product-remove">
+                                                            <a asp-action="removeCart" asp-route-id="@i.Id" class="remove">
+                                                                    <i class="mdi mdi-close"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-title">
+                                                            <a href="#">
+                                                                @i.name
+                                                            </a>
+                                                            <div class="variation">
+                                                                <div class="variant-color">
+                                                                    <span class="variant-color-title">@i.color</span>
+                                                                    <input name="color" value="@i.color" hidden />
+                                                                </div>
+                                                                <div class="seller">
+                                                                    <i class="mdi mdi-storefront"></i>
+                                                                    سایز :
+                                                                    <span>@i.size</span>
+                                                                </div>
+                                                                <input name="size" value="@i.size" hidden />
+                                                                <div class="seller">
+                                                                    <input  value="@i.Id" name="id" hidden/>
+                                                                    <input  value="@i.userId" name="seller_id" hidden/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+
+                                                    <td class="product-cart-price">
+                                                        <span id="price" class="amount">
+                                                            @i.pris
+                                                        </span>
+                                                        <span>هزار تومان </span>
+                                                    </td>
+                                                    <td class="product-cart-quantity">
+                                                        <div class="required-number before">
+                                                            <div class="quantity">
+                                                                <input id="number" type="number" min="1" max="100" step="1" value="1" name="tedad">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-cart-Total">
+                                                        <input id="sum0" name="price" hidden/>
+                                                        <span id="sum" class="amount">
+
+                                                        </span>
+                                                        <span>هزار تومان</span>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <div class="align-items-center">
+                                        <div class="col-md-2 pl mt-5">
+                                            <div class="proceed-to-checkout">
+                                                <a id="q" class="btn btn-info checkout-button d-block text-center">
+                                                    <button type="submit" class="btn btn-info checkout-button d-block text-center">
+                                                        تسویه
+                                                        حساب
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="cart-collaterals">
+                                    <div class="totals d-block">
+                                        <h3 class="Total-cart-total">مجموع کل سبد خرید</h3>
+                                        <div class="checkout-summary">
+                                            <ul class="checkout-summary-summary">
+                                                <li class="cart-subtotal">
+                                                    <span class="amount">قیمت کل</span>
+                                                    <span id="all" class="amount"> </span>
+                                                    <span>هزار تومان</span>
+                                                </li>
+                                                <li class="shipping-totals">
+                                                    <span class="amount">حمل و نقل</span>
+                                                    <div class="shipping-totals-item">
+                                                        <div class="shipping-totals-outline">
+                                                            <label for="#" class="shipping-totals-title-row">
+                                                                <span class="shipping-totals-title">
+                                                                    حمل و نقل رایگان
+                                                                </span>
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                </li>           
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            }
+
+
+
+        </div>
+    </div>
+    <!-- cart---------------------------------->
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                var c = [];
+                var d = 0;
+                $("tbody  tr").each(function () {
+                    var a = $(this).find("td:eq(0)").find("span:eq(0)").text();
+                    $(this).find("#sum").text(a);
+                    $(this).find("#sum0").val(a);
+                    $(this).each(function () {
+                        $(this).change(function () {
+                            $(this).find("#sum").text(a * $(this).find("#number").val())
+                            $(this).find("#sum0").val(a * $(this).find("#number").val())
+                        })
+                    })
+                })
+                $("tbody   tr").each(function () {
+                    var b = $(this).find("td:eq(2)").find("span:eq(0)").text();
+                    d += parseInt(b);
+                    $("#all").text(d);
+                    $("table").change(function () {
+                        d = 0;
+                        $("tbody   tr").each(function () {
+                            var b = $(this).find("td:eq(2)").find("span:eq(0)").text();
+                            d += parseInt(b);
+                            $("#all").text(d);
+                        })
+                    })
+                })
+            })
+
+            $("#test").click(function () {
+                $.post('/customer/pay', { tedad: 2, id: 10 })
+            })
+        </script>
+    }

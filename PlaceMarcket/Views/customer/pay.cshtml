@@ -1,0 +1,387 @@
+﻿@{
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<be.user> Userm
+@model List<be.Sold>
+<!-- checkout------------------------------>
+<div class="container-main">
+    <div class="d-block">
+        <section class="blog-checkout d-block order-1">
+            <div class="col-lg">
+                <div class="checkout woocommerce-checkout">
+                    <div class="content-checkout container">
+                        <div class="notices-wrapper">
+                            <div class="col-12">
+                                <div class="form-coupon-toggle">
+                                    <div class="info">
+                                        کد تخفیف دارید؟
+                                        <a href="#" class="showcoupon">برای نوشتن کد اینجا کلیک کنید</a>
+                                    </div>
+                                    <div class="checkout-coupon form-coupon">
+                                        <p>اگر کد تخفیف دارید، لطفا وارد کنید.</p>
+                                        <form action="#" class="form-coupon">
+                                            <div class="form-row">
+                                                <input type="text" name="coupon-code" class="checkout-discount-code"
+                                                       placeholder="کد تخفیف">
+                                                <div class="append pl">
+                                                    <button class="btn-append btn btn-primary" type="submit">
+                                                        اعمال
+                                                        تخفیف
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="middle-container">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var h = Userm.FindByNameAsync(User.Identity.Name).Result;
+
+                                <form asp-action="solds" class="form-checkout" enctype="multipart/form-data" method="post">
+                                    <div class="col2-set" id="customer-details">
+                                        <div class="col-12">
+                                            <div class="billing-fields mt-4">
+                                                <h4 class="text-center">جزئیات صورتحساب</h4>
+                                                <div class="form-checkout-row">
+                                                    <div class="form-checkout-row">
+                                                        <label for="name">
+                                                            <span>
+                                                                نام تحویل گیرنده <abbr class="required" title="ضروری"
+                                                                                       style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="name"
+                                                               class="input-name-checkout form-control" name="user_name" value="@h.name">
+                                                        <label for="name">
+                                                            <span>
+                                                                نام خانوادگی تحویل گیرنده <abbr class="required" title="ضروری"
+                                                                                                style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="name"
+                                                               class="input-name-checkout form-control" name="family" value="@h.family">
+                                                        <label for="phone-number">
+                                                            شماره موبایل <abbr class="required" title="ضروری"
+                                                                               style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="phone-number"
+                                                               class="input-name-checkout form-control text-left" name="mobile" value="@h.mobile">
+                                                        <label for="email">
+                                                            <span>
+                                                                ایمیل <abbr class="required" title="ضروری"
+                                                                            style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="email"
+                                                               class="input-name-checkout form-control" name="email" value="@h.Email">
+                                                        <label for="post-code">
+                                                            کد پستی<abbr class="required" title="ضروری"
+                                                                         style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="post-code"
+                                                               class="input-name-checkout form-control"
+                                                               placeholder="کد پستی را بدون خط تیره بنویسید" name="code_posti" value="@h.post">
+                                                        <label for="post-code">
+                                                            آدرس<abbr class="required" title="ضروری"
+                                                                      style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="post-code"
+                                                               class="input-name-checkout form-control"
+                                                               placeholder="لطفا آدرس دقیق را بنویسید" name="adress" value="@h.address">
+                                                    </div>
+
+                                                    <div class="Order-another-shipping-address mt-5">
+                                                        <div class="shipping-address">
+                                                            <div id="collapseExample" class="collapse">
+                                                                <div class="middle-container">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <label for="address">
+                                                        توضیحات سفارش
+                                                        <span class="optional">(اختیاری)</span>
+                                                    </label>
+                                                    <textarea rows="5" cols="30" id="address"
+                                                              class="textarea-name-checkout form-control"
+                                                              placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار " name="detail"></textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="order-review-heading">سفارش شما</h3>
+                                    <div class="checkout-review-order">
+                                        <table class="checkout-review-order-table table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="product-name">محصول</th>
+                                                    <th scope="col" class="product-tedad">تعداد</th>
+                                                    <th scope="col" class="product-tedad">رنگ</th>
+                                                    <th scope="col" class="product-tedad">سایز</th>
+                                                    <th scope="col" class="product-price">قیمت کل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in Model)
+                                                {
+                                                    <tr class="checkout-cart-item">
+                                                        <input hidden name="name" value="@i.items.name" />
+                                                        <input hidden name="code_mahsoul" value="@i.items.code_mahsoul" />
+                                                        <input hidden name="color" value="@i.color" />
+                                                        <input hidden name="tedad" value="@i.tedad" />
+                                                        <input hidden name="size" value="@i.size" />
+                                                        <input hidden name="price" value="@i.price" />
+                                                        <input hidden name="seller_id" value="@i.seller_id" />
+                                                        <td class="product-name">@i.items.name</td>
+                                                        <td class="product-name">@i.tedad</td>
+                                                        <td class="product-name">@i.color</td>
+                                                        <td class="product-name">@i.size</td>
+                                                        <td class="product-name">@i.seller_id</td>
+                                                        <td class="product-price text-info">
+                                                            <span class="amount">
+                                                                @i.price
+                                                                <span> هزار تومان</span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+
+                                                <tr class="cart-subtotal">
+                                                    <th>مجموع</th>
+                                                    <td>
+                                                        <span id="sum" class="amount">
+                                                            @Model.Sum(i => i.price)
+                                                            <input hidden name="Amount" value="@Model.Sum(i => i.price)" />
+                                                            <span> هزار تومان</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th>حمل ونقل</th>
+                                                    <td>
+                                                        <div class="shipping-totals-item">
+                                                            <span class="shipping-destination">
+                                                                حمل رایگان به سراسر ایران
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        <ul class="checkout-payment-methods">
+                                            <li class="checkout-payment-method-item d-block">
+                                                <label for="#" class="outline-radio">
+                                                    <input type="radio" name="payment_method"
+                                                           id="payment-option-online" checked>
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <div class="form-auth-row">
+                                            <label for="#" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="login" id="remember">
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0">
+                                                <a href="#">حریم خصوصی</a> و
+                                                <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت دیجی‌اسمارت را
+                                                مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required"
+                                                                                             title="ضروری" style="color:red;">*</abbr>
+                                            </label>
+                                        </div>
+                                        <button class="btn-Order btn btn-primary mt-4 mb-3" type="submit">
+                                            ثبت
+                                            سفارش
+                                        </button>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="solds" class="form-checkout" enctype="multipart/form-data" method="post">
+                                    <div class="col2-set" id="customer-details">
+                                        <div class="col-12">
+                                            <div class="billing-fields mt-4">
+                                                <h4 class="text-center">جزئیات صورتحساب</h4>
+                                                <div class="form-checkout-row">
+                                                    <div class="form-checkout-row">
+                                                        <label for="name">
+                                                            <span>
+                                                                نام تحویل گیرنده <abbr class="required" title="ضروری"
+                                                                                       style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="name"
+                                                               class="input-name-checkout form-control" name="user_name">
+                                                        <label for="name">
+                                                            <span>
+                                                                نام خانوادگی تحویل گیرنده <abbr class="required" title="ضروری"
+                                                                                                style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="name"
+                                                               class="input-name-checkout form-control" name="family">
+                                                        <label for="phone-number">
+                                                            شماره موبایل <abbr class="required" title="ضروری"
+                                                                               style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="phone-number"
+                                                               class="input-name-checkout form-control text-left" name="mobile">
+                                                        <label for="email">
+                                                            <span>
+                                                                ایمیل <abbr class="required" title="ضروری"
+                                                                            style="color:red;">*</abbr>
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" id="email"
+                                                               class="input-name-checkout form-control" name="email">
+                                                        <label for="post-code">
+                                                            کد پستی<abbr class="required" title="ضروری"
+                                                                         style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="post-code"
+                                                               class="input-name-checkout form-control"
+                                                               placeholder="کد پستی را بدون خط تیره بنویسید" name="code_posti">
+                                                        <label for="post-code">
+                                                            آدرس<abbr class="required" title="ضروری"
+                                                                      style="color:red;">*</abbr>
+                                                        </label>
+                                                        <input type="text" id="post-code"
+                                                               class="input-name-checkout form-control"
+                                                               placeholder="لطفا آدرس دقیق را بنویسید" name="adress">
+                                                    </div>
+
+                                                    <div class="Order-another-shipping-address mt-5">
+                                                        <div class="shipping-address">
+                                                            <div id="collapseExample" class="collapse">
+                                                                <div class="middle-container">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <label for="address">
+                                                        توضیحات سفارش
+                                                        <span class="optional">(اختیاری)</span>
+                                                    </label>
+                                                    <textarea rows="5" cols="30" id="address"
+                                                              class="textarea-name-checkout form-control"
+                                                              placeholder="یادداشت ها درباره سفارش شما ، برای مثال نکات مهم برای تحویل بار "
+                                                              name="detail"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 class="order-review-heading">سفارش شما</h3>
+                                    <div class="checkout-review-order">
+                                        <table class="checkout-review-order-table table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="product-name">محصول</th>
+                                                    <th scope="col" class="product-tedad">تعداد</th>
+                                                    <th scope="col" class="product-tedad">رنگ</th>
+                                                    <th scope="col" class="product-tedad">سایز</th>
+                                                    <th scope="col" class="product-price">قیمت کل</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var i in Model)
+                                                {
+                                                    <input hidden name="name" value="@i.items.name" />
+                                                    <input hidden name="code_mahsoul" value="@i.items.code_mahsoul" />
+                                                    <input hidden name="color" value="@i.color" />
+                                                    <input hidden name="tedad" value="@i.tedad" />
+                                                    <input hidden name="size" value="@i.size" />
+                                                    <input hidden name="price" value="@i.price" />
+                                                    <input hidden name="seller_id" value="@i.seller_id" />
+                                                    <tr class="checkout-cart-item">
+                                                        <td class="product-name">@i.items.name</td>
+                                                        <td class="product-name">@i.tedad</td>
+                                                        <td class="product-name">@i.color</td>
+                                                        <td class="product-name">@i.size</td>
+                                                        <td class="product-price text-info">
+                                                            <span class="amount">
+                                                                @i.price
+                                                                <span> هزار تومان</span>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+
+                                                <tr class="cart-subtotal">
+                                                    <th>مجموع</th>
+                                                    <td>
+                                                        <span id="sum" class="amount">
+                                                            @Model.Sum(i => i.price)
+                                                            <input hidden name="Amount" value="@Model.Sum(i => i.price)" />
+                                                            <span> هزار تومان</span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th>حمل ونقل</th>
+                                                    <td>
+                                                        <div class="shipping-totals-item">
+                                                            <span class="shipping-destination">
+                                                                حمل رایگان به سراسر ایران
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        <ul class="checkout-payment-methods">
+                                            <li class="checkout-payment-method-item d-block">
+                                                <label for="#" class="outline-radio">
+                                                    <input type="radio" name="payment_method"
+                                                           id="payment-option-online" checked>
+                                                    <span class="outline-radio-check"></span>
+                                                </label>
+                                                <label for="#" class="shipping-totals-title-row">
+                                                    <div class="shipping-totals-title">پرداخت اینترنتی هوشمند</div>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <div class="form-auth-row">
+                                            <label for="#" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="login" id="remember">
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0">
+                                                <a href="#">حریم خصوصی</a> و
+                                                <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت دیجی‌اسمارت را
+                                                مطالعه نموده و با کلیه موارد آن موافقم <abbr class="required"
+                                                                                             title="ضروری" style="color:red;">*</abbr>
+                                            </label>
+                                        </div>
+
+                                        <button class="btn-Order btn btn-primary mt-4 mb-3" type="submit">
+                                            ثبت
+                                            سفارش
+                                        </button>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- checkout------------------------------>

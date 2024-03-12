@@ -1,0 +1,59 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace be
+{
+    public class Sold
+    {
+        [Key]
+        public int id { get; set; }
+
+        public string? trans_id { get; set; }
+        public string? id_get { get; set; }
+        public string FactorId { get; set; }
+        public int tedad { get; set; }
+
+        //public string code_mahsoul { get; set; }
+        //public string name { get; set; }
+
+        public string size { get; set; }
+        public string color { get; set; }
+
+        //public string user_name { get; set; }
+        //public string family { get; set; }
+        //public string user { get; set; }
+        // public string pass { get; set; }
+        //public string email { get; set; }
+        //public string mobile { get; set; }
+        //public string adress { get; set; }
+
+        public string? detail { get; set; }
+        public string? code_posti { get; set; }
+        public int price { get; set; }
+        public int status { get; set; }
+        public bool pay { get; set; }
+
+        public Items items { get; set; }
+
+        public string? customerId { get; set; }
+        public user? customer { set; get; }
+
+        public string seller_idId { set; get; }
+        public user seller_id { set; get; }
+
+        public DateTime createTime { set; get; }
+        public DateTime updateTime { set; get; }
+
+        //public List<Solds_Items> solds_items { set; get; }
+        //public string seller_id { get; set; }
+
+        public Sold()
+        {
+            items = new Items();
+            FactorId = string.Empty;
+            createTime = DateTime.Now;
+            updateTime = DateTime.Now;
+            pay = false;
+        }
+    }
+}

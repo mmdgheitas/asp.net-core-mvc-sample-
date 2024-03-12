@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "_Layout_admin";
+}
+@model List<be.Votes>
+
+@if (Model != null && Model.Count != 0)
+{
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div id="highlight-table" class="card card card-default scrollspy">
+                <div class="card-content">
+                    <h4 class="card-title">جدول برجسته</h4>
+                    <p class="mb-2">
+                        اضافه کردن <code class=" language-markup">class="Highlight"</code> به برچسب جدول برای یک میز برجسته
+                    </p>
+                    <div class="row">
+                        <div class="col s12">
+                        </div>
+                        <div class="col s12">
+                            <table class="highlight">
+                                <thead>
+                                    <tr>
+                                        <th data-field="name">id</th>
+                                        <th data-field="name">admin</th>
+                                        <th data-field="name">text</th>
+                                        <th data-field="code">ok</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var i in Model)
+                                    {
+                                        <tr>
+                                            <td>@i.id</td>
+                                            <td>@i.admin</td>
+                                            <td>@i.text</td>
+                                            <td>@i.ok</td>
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="dataTables_paginate paging_simple_numbers" id="data-table-row-grouping_paginate">
+                                <span>
+                                    @{
+                                        BLL.bladmin bla = new BLL.bladmin();
+                                        int a = bla.GetAllVotes();
+
+                                        for (int i = 1; i < a; i++)
+                                        {
+                                            <a class="paginate_button" asp-action="Votes" asp-route-s="@i">@i</a>
+                                        }
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="center text-danger">لیست خالی است</div>
+}

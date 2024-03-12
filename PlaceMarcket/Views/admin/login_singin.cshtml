@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<!-- login----------------------------------->
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <section class="page-account-box">
+                <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                    <div class="ds-userlogin">
+                        <a href="#" class="account-box-logo">digismart</a>
+                        <div class="account-box">
+                            <div class="account-box-headline">
+                                <a class="login-ds active" id="btn_login">
+                                    <span class="title">ورود</span>
+                                    <span class="sub-title">به بلک لند</span>
+                                </a>
+                                <a class="register-ds" id="btn_signin">
+                                    <span class="title">ثبت نام</span>
+                                    <span class="sub-title">در بلک لند</span>
+                                </a>
+                            </div>
+                            <div class="Login-to-account mt-4" id="login">
+                                <div class="account-box-content">
+                                    <h4>ورود به حساب کاربری</h4>
+                                    <form asp-action="login0"  class="form-account text-right">
+                                        <div class="form-account-title">
+                                            <label for="username">نام کاربری</label>
+                                            <input type="text" class="number-email-input" id="user" name="UserName">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="password">رمز عبور</label>
+                                            <a href="#" class="account-link-password">رمز خود را فراموش کرده ام</a>
+                                            <input type="password" class="password-input" name="PasswordHash">
+                                        </div>
+                                        <div class="text-danger text-center">@Html.ValidationSummary()</div>
+                                        <div class="form-row-account">
+                                            <button id="login" class="btn btn-primary btn-login" type="submit">ورود به بلک لند</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="Login-to-account mt-4" id="signin">
+                                <div class="account-box-content">
+                                    <h4>ثبت نام در بلک لند</h4>
+                                    <form asp-action="CreateUser" asp-controller="customer" method="post" class="form-account text-right">
+
+                                        <div class="form-account-title">
+                                            <label for="name">نام</label>
+                                            <input type="text" class="number-email-input" name="name">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="family">نام خانوادگی</label>
+                                            <input type="text" class="number-email-input" name="family">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="mobile">موبایل</label>
+                                            <input type="text" class="number-email-input" name="mobile">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="email">ایمیل</label>
+                                            <input type="text" class="number-email-input" name="Email">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="address">ادرس</label>
+                                            <input type="text" class="number-email-input" name="address">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="post">کد پستی</label>
+                                            <input type="text" class="number-email-input"  name="post">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="username">نام کاربری</label>
+                                            <input type="text" class="number-email-input" name="UserName">
+                                        </div>
+                                        <div class="form-account-title">
+                                            <label for="password">رمز عبور</label>
+                                            <input type="password" class="password-input" id="pass" name="pass">
+                                        </div>
+
+
+
+                                        <div class="form-auth-row">
+                                            <label for="#" class="ui-checkbox mt-1">
+                                                <input type="checkbox" value="1" name="login" id="remember">
+                                                <span class="ui-checkbox-check"></span>
+                                            </label>
+                                            <label for="remember" class="remember-me mr-0"><a href="#">حریم خصوصی</a> و <a href="#">شرایط قوانین </a>استفاده از سرویس های سایت دیجی‌اسمارت را مطالعه نموده و با کلیه موارد آن موافقم.</label>
+                                        </div>
+                                        <div class="form-row-account">
+                                            <button id="btnr" class="btn btn-primary btn-register" type="submit">ثبت نام در بلک لند</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- login----------------------------------->
+
+@section scripts {
+<script src="~/js/vendor/jquery-3.2.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#signin").css("display", "none");
+        $("#btn_login").click(function () {
+            $("#signin").fadeOut(200);
+            $("#btn_login").addClass("active");
+            $("#btn_signin").removeClass("active");
+            $("#login").fadeIn(200);
+        });
+        $("#btn_signin").click(function () {
+            $("#login").fadeOut(200);
+            $("#btn_signin").addClass("active");
+            $("#btn_login").removeClass("active");
+            $("#signin").fadeIn(200);
+        });
+        $("#login").click(function () {
+            $.get('customer/login', { username: $("#user").val(), password: $("#pass").val() }, function (data)
+            {
+                alert("data")
+            })
+        })
+    });
+</script>
+}

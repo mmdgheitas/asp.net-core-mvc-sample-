@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model be.user
+
+<!-- profile------------------------------->
+<div class="container-main">
+    <div class="d-block">
+        <section class="profile-home">
+            <div class="col-lg">
+                <div class="post-item-profile order-1 d-block">
+                    <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                        <div class="sidebar-profile sidebar-navigation">
+                            <section class="profile-box">
+                                <header class="profile-box-header-inline">
+                                    <div class="profile-avatar user-avatar profile-img">
+                                        <img src="~/images/man.png">
+                                    </div>
+                                </header>
+                                <footer class="profile-box-content-footer">
+                                    <span class="profile-box-nameuser">@Model.name @Model.family</span>
+                                    <span class="profile-box-phone">شماره همراه : @Model.mobile</span>
+                                    <div class="profile-box-tabs">
+                                        <a href="#" class="profile-box-tab-sign-out">
+                                            <i class="mdi mdi-logout-variant"></i>خروج از حساب
+                                        </a>
+                                    </div>
+                                </footer>
+                            </section>
+                            <section class="profile-box">
+                                <ul class="profile-account-navs">
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a asp-action="profile" class="">
+                                            <i class="mdi mdi-account-outline"></i>
+                                            پروفایل
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-cart"></i>
+                                            همه سفارش ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-heart"></i>
+                                            لیست علاقه مندی
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-map-outline"></i>
+                                            آدرس ها
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="">
+                                            <i class="mdi mdi-email-open-outline"></i>
+                                            نظرات
+                                        </a>
+                                    </li>
+                                    <li class="profile-account-nav-item navigation-link-dashboard">
+                                        <a href="#" class="active">
+                                            <i class="mdi mdi-tooltip-text-outline"></i>
+                                            اطلاعات حساب
+                                        </a>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                        <div class="profile-content">
+                            <div class="profile-stats">
+                                <div class="profile-address">
+                                    <div class="middle-container">
+                                        <form asp-action="update" method="post" class="form-checkout">
+                                            <div class="form-checkout-row">
+                                                <input style="display:none" value="@Model.Id" name="Id" />
+                                                <label for="namefirst">
+                                                    نام <abbr class="required" title="ضروری"
+                                                              style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="namefirst" value="@Model.name"
+                                                       class="input-namefirst-checkout form-control" name="name">
+
+                                                <label for="namelast">
+                                                    نام خانوادگی <abbr class="required"
+                                                                       title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="namelast" value="@Model.family"
+                                                       class="input-namelast-checkout form-control" name="family">
+
+                                                <label for="email">
+                                                    ایمیل <abbr class="required" title="ضروری"
+                                                                style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="email" value="@Model.Email"
+                                                       class="input-email-checkout form-control" name="Email">
+                                                <label for="mobile">
+                                                    موبایل <abbr class="required" title="ضروری"
+                                                                 style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="email" value="@Model.mobile"
+                                                       class="input-email-checkout form-control" name="mobile">
+                                                <label for="address">
+                                                    آدرس <abbr class="required" title="ضروری"
+                                                               style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="address" value="@Model.address"
+                                                       class="input-email-checkout form-control" name="address">
+                                                <label for="post">
+                                                    کد پستی <abbr class="required" title="ضروری"
+                                                                  style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="post" value="@Model.post"
+                                                       class="input-email-checkout form-control" name="post">
+                                                <label for="username">
+                                                    نام کاربری <abbr class="required" title="ضروری"
+                                                                     style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="username" value="@Model.UserName"
+                                                       class="input-email-checkout form-control" name="UserName">
+
+                                                <label for="password">
+                                                    رمز عبور قبلی <abbr class="required"
+                                                                        title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="password" value="@Model.pass"
+                                                       class="input-password-checkout form-control" name="old">
+
+                                                <label for="password">
+                                                    رمز عبور جدید <abbr class="required"
+                                                                        title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="password"
+                                                       class="input-password-checkout form-control" name="n">
+
+                                                <label for="password">
+                                                    تکرار رمز عبور جدید <abbr class="required"
+                                                                              title="ضروری" style="color:red;">*</abbr>
+                                                </label>
+                                                <input type="text" id="password"
+                                                       class="input-password-checkout form-control" name="pass">
+
+                                                <div class="AR-CR">
+                                                    <button type="submit" class="btn-registrar"> ثبت تغییرات </button>
+                                                    <a href="#" class="cancel-edit-address" data-dismiss="modal"
+                                                       aria-label="Close">بازگشت</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- profile------------------------------->

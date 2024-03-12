@@ -1,0 +1,254 @@
+﻿@{
+    Layout = "_Layout_admin";
+}
+
+@section link{
+    <link rel="stylesheet" type="text/css" href="~/material/vendors/dropify/css/dropify.min.css">
+}
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<be.user> Userm
+
+
+@{
+    var h = Userm.FindByNameAsync(User.Identity.Name).Result.Id;
+}
+
+<ul class="display-none" id="default-search-main">
+    <li class="auto-suggestion-title">
+        <a class="collection-item" href="#">
+            <h6 class="search-title">FILES</h6>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img src="~/material/images/icon/pdf-image.png" width="24" height="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">Two new item submitted</span><small class="grey-text">Marketing Manager</small></div>
+                </div>
+                <div class="status"><small class="grey-text">17kb</small></div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img src="~/material/images/icon/doc-image.png" width="24" height="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">52 Doc file Generator</span><small class="grey-text">FontEnd Developer</small></div>
+                </div>
+                <div class="status"><small class="grey-text">550kb</small></div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img src="~/material/images/icon/xls-image.png" width="24" height="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">25 Xls File Uploaded</span><small class="grey-text">Digital Marketing Manager</small></div>
+                </div>
+                <div class="status"><small class="grey-text">20kb</small></div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img src="~/material/images/icon/jpg-image.png" width="24" height="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">Anna Strong</span><small class="grey-text">Web Designer</small></div>
+                </div>
+                <div class="status"><small class="grey-text">37kb</small></div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion-title">
+        <a class="collection-item" href="#">
+            <h6 class="search-title">MEMBERS</h6>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img class="circle" src="~/material/images/avatar/avatar-7.png" width="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">John Doe</span><small class="grey-text">UI designer</small></div>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img class="circle" src="~/material/images/avatar/avatar-8.png" width="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">Michal Clark</span><small class="grey-text">FontEnd Developer</small></div>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img class="circle" src="~/material/images/avatar/avatar-10.png" width="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">Milena Gibson</span><small class="grey-text">Digital Marketing</small></div>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li class="auto-suggestion">
+        <a class="collection-item" href="#">
+            <div class="display-flex">
+                <div class="display-flex align-item-center flex-grow-1">
+                    <div class="avatar"><img class="circle" src="~/material/images/avatar/avatar-12.png" width="30" alt="sample image"></div>
+                    <div class="member-info display-flex flex-column"><span class="black-text">Anna Strong</span><small class="grey-text">Web Designer</small></div>
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
+<ul class="display-none" id="page-search-title">
+    <li class="auto-suggestion-title">
+        <a class="collection-item" href="#">
+            <h6 class="search-title">PAGES</h6>
+        </a>
+    </li>
+</ul>
+<ul class="display-none" id="search-not-found">
+    <li class="auto-suggestion"><a class="collection-item display-flex align-items-center" href="#"><span class="material-icons">error_outline</span><span class="member-info">No results found.</span></a></li>
+</ul>
+
+
+
+<!-- BEGIN: SideNav-->
+<aside class="sidenav-main nav-expanded nav-lock nav-collapsible sidenav-light sidenav-active-square">
+    <div class="brand-sidebar">
+        <h1 class="logo-wrapper">
+            <a class="brand-logo darken-1" href="index-2.html">
+                <img class="hide-on-med-and-down" src="~/material/images/logo/materialize-logo-color.png" alt="materialize logo" /><img class="show-on-medium-and-down hide-on-med-and-up" src="~/material/images/logo/materialize-logo.png"
+                                                                                                                                        alt="materialize logo" /><span class="logo-text hide-on-med-and-down">متریالایز</span>
+            </a><a class="navbar-toggler" href="#"><i class="material-icons">radio_button_checked</i></a>
+        </h1>
+    </div>
+    <ul class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow" id="slide-out" data-menu="menu-navigation" data-collapsible="menu-accordion">
+    </ul>
+    <div class="navigation-background"></div><a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only" href="#" data-target="slide-out"><i class="material-icons">menu</i></a>
+</aside>
+<!-- END: SideNav-->
+<!-- BEGIN: Page Main-->
+<div id="main">
+    <div class="row">
+        <div class="col s12">
+            <div id="validations" class="card card-tabs">
+                <div class="card-content">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col s12 m6 l10">
+                                <h4 class="card-title">مثال اعتبار سنجی جی کوئری</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="view-validations">
+                        <form asp-action="add" class="formValidate" id="formValidate" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="name">نام *</label>
+                                    <input required id="uname" name="name" type="text" data-error=".errorTxt1">
+                                    <small class="errorTxt1"></small>
+                                </div>
+                                <div class="input-field col s12">
+                                    <label for="pris">قیمت *</label>
+                                    <input required id="cemail" type="number" name="pris" data-error=".errorTxt2">
+                                    <small class="errorTxt2"></small>
+                                </div>
+                                <div class="input-field col s12">
+                                    <label for="code_mahsoul">کد محصول *</label>
+                                    <input required id="password" type="text" name="code_mahsoul" data-error=".errorTxt3">
+                                    <small class="errorTxt3"></small>
+                                </div>
+@*                                <div class="input-field col s12">
+                                    <label for="size">سایز </label>
+                                    <input id="cpassword" type="text" name="size" data-error=".errorTxt4">
+                                    <small class="errorTxt4"></small>
+                                </div>*@
+                                <div class="input-field col s12">
+                                    <label for="color">رنگ </label>
+                                    <input id="curl" type="text" name="color" data-error=".errorTxt5">
+                                    <small class="errorTxt5"></small>
+                                </div>
+                                <div class="input-field col s12">
+                                    <textarea required id="ccomment" name="detail" class="materialize-textarea validate" data-error=".errorTxt7"></textarea>
+                                    <label for="ccomment">جزئیات محصول *</label>
+                                    <small class="errorTxt7"></small>
+                                </div>        
+                                <div class="col s12">
+                                    <p>موجودی* </p>
+                                    <p>
+                                        <label>
+                                            <input name="exist" type="radio" value="true" checked />
+                                            <span>موجود</span>
+                                        </label>
+                                    </p>
+
+                                    <label>
+                                        <input name="exist" value="false" type="radio" />
+                                        <span>نا موجود</span>
+                                    </label>
+                                    <div class="input-field">
+                                        <small class="errorTxt8"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section">
+                                <div class="divider mb-1"></div>
+                                <!--file-upload-->
+                                <div id="file-upload" class="section">
+                                    <!--use events-->
+                                    <div class="divider mb-1 mt-1"></div>
+                                    <div class="row section">
+                                        <div class="col s12 m4 l3">
+                                            <p>عکس محصول خود را انتخاب کنید*</p>
+                                        </div>
+                                        <div class="col s12 m8 l9">
+                                            <input required type="file" id="input-file-events" class="dropify-event" name="img_src" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                                <input name="seller_ID" value="@h" />
+                            <div class="input-field col s12">
+
+                                <button class="btn waves-effect waves-light right submit" type="submit" name="action">
+                                    ارسال
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="container">
+                <div style="bottom: 50px; right: 19px;" class="fixed-action-btn direction-top">
+                    <a class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow"><i class="material-icons">add</i></a>
+                    <ul>
+                        <li><a href="css-helpers.html" class="btn-floating blue"><i class="material-icons">help_outline</i></a></li>
+                        <li><a href="cards-extended.html" class="btn-floating green"><i class="material-icons">widgets</i></a></li>
+                        <li><a href="app-calendar.html" class="btn-floating amber"><i class="material-icons">today</i></a></li>
+                        <li><a href="app-email.html" class="btn-floating red"><i class="material-icons">mail_outline</i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+</div>
+<!-- END: Page Main-->
+<!-- BEGIN: Footer-->

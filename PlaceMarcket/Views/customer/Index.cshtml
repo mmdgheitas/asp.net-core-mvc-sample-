@@ -1,0 +1,845 @@
+﻿@{
+    ViewData["Title"] = "this is page one title";
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<be.user> Userm
+@model List<be.Items>
+
+
+
+<!-- header-------------------------------->
+<header class="header-main">
+    <div class="container-main">
+        <div class="d-block">
+            <section class="h-main-row">
+                <div class="col-lg-9 col-md-12 col-xs-12 pr">
+                    <div class="header-right">
+                        <div class="col-lg-3 pr">
+                            <div class="header-logo row text-right">
+                                <img src="/theme/images/Untitled-1.png"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 pr">
+                            <div class="header-search row text-right">
+                                <div class="header-search-box">
+                                    <form asp-action="Search" class="form-search">
+                                        <input type="search" class="header-search-input" name="text" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                                        <div class="action-btns">
+                                            <button class="btn btn-search" type="submit">
+                                                <img src="/theme/images/search.png" alt="search">
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-0 col-xs-12 pl">
+                    <div class="header-left">
+                        <div class="header-account text-left">
+                            <div class="d-block">
+                                <div class="account-box">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        var h = Userm.FindByNameAsync(User.Identity.Name).Result;
+
+
+                                        <div class="nav-account d-block pl">
+                                            <span class="icon-account">
+                                                <img src="~/theme/images/man.png" class="avator">
+                                            </span>
+                                            <span class="title-account">@h.name @h.family</span>
+                                            <div class="dropdown-menu">
+                                                <ul class="account-uls mb-0">
+                                                    <li class="account-item">
+                                                        <a asp-action="profile" class="account-link">پنل کاربری</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <form method="post" asp-action="orders">
+                                                            <input name="u" hidden value="@h.UserName" />
+                                                            <input name="p" hidden value="@h.pass" />
+                                                            <a class="account-link">
+                                                                <button type="submit" style="background:none">
+                                                                    سفارشات من
+                                                                </button>
+                                                            </a>
+                                                        </form>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a asp-action="cart" class="account-link">سبد خرید</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a asp-action="logout" class="account-link">خروج</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="nav-account d-block pl">
+                                            <span class="icon-account">
+                                                <img src="~/theme/images/man.png" class="avator">
+                                            </span>
+                                            <a asp-action="profile">
+                                                <span class="title-account">حساب کاربری</span>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <ul class="account-uls mb-0">
+                                                    <li class="account-item">
+                                                        <a asp-action="profile" target="_blank" class="account-link">پنل کاربری</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a asp-action="cart" class="account-link">سبد خرید</a>
+                                                    </li>
+                                                    <li class="account-item">
+                                                        <a asp-action="CheckOrders" target="_blank" class="account-link">پیگیری خرید</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <nav class="header-main-nav">
+                <div class="d-block">
+                    <div class="align-items-center">
+                        <ul class="menu-ul mega-menu-level-one">
+                            @*<li id="nav-menu-item" class="menu-item">
+                                    <a asp-action="Product_category" asp-controller="customer" target="_blank">
+                                        Product_category
+                                    </a>
+                                </li>*@
+
+
+                            @if (Model != null || Model.Count == 0)
+                            {
+                                <li class="divider-space-card d-block">
+                                    <div class="header-cart-basket">
+                                        <a asp-action="cart" class="cart-basket-box">
+                                            <span class="icon-cart">
+                                                <i class="mdi mdi-shopping"></i>
+                                            </span>
+                                            <span class="title-cart">سبد خرید</span>
+                                            <span class="price-cart">
+                                                @Model.Sum(i => i.pris)
+                                                <span>هزار تومان</span>
+                                            </span>
+                                            <span class="count-cart">@Model.Count</span>
+                                        </a>
+                                        <div class="widget-shopping-cart">
+                                            <div class="widget-shopping-cart-content">
+                                                <div class="wrapper">
+                                                    <div class="scrollbar" id="style-1">
+                                                        <div class="force-overflow">
+                                                            <ul class="product-list-widget">
+
+                                                                @foreach (var i in Model)
+                                                                {
+                                                                    <li class="mini-cart-item">
+                                                                        <div class="mini-cart-item-content">
+                                                                            <a asp-action="removeCart" asp-route-id="@i.Id" class="mini-cart-item-close">
+                                                                                <i class="mdi mdi-close"></i>
+                                                                            </a>
+                                                                            <a asp-action="cart"
+                                                                               class="mini-cart-item-image d-block">
+                                                                                <img src="~/images/items/@i.img_src">
+                                                                            </a>
+                                                                            <span class="product-name-card">
+                                                                                @i.name
+                                                                            </span>
+                                                                            <div class="variation">
+                                                                                <span class="variation-n">
+                                                                                    فروشنده :
+                                                                                </span>
+                                                                                <p class="mb-0">کالامارکت </p>
+                                                                            </div>
+                                                                            <div class="header-basket-list-item-color-badge">
+                                                                                رنگ:
+                                                                                <span style="background: #000"></span>
+                                                                            </div>
+                                                                            <div class="quantity">
+                                                                                <span class="quantity-Price-amount">
+                                                                                    @i.pris
+                                                                                    <span>هزار تومان </span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mini-card-total">
+                                                    <strong>قیمت کل : </strong>
+                                                    <span class="price-total">
+                                                        @Model.Sum(i => i.pris)
+                                                        <span>هزار تومان</span>
+                                                    </span>
+                                                </div>
+                                                <div class="mini-card-button">
+                                                    <a asp-action="cart" class="card-checkout">تسویه حساب</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+
+                            else
+                            {
+
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">جستجو</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="header-search text-right">
+                    <div class="header-search-box">
+                        <form action="#" class="form-search">
+                            <input type="search" class="header-search-input" name="search-input"
+                                   placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+                            <div class="action-btns">
+                                <button class="btn btn-search" type="submit">
+                                    <img src="~/theme/images/search.png" alt="search">
+                                </button>
+                            </div>
+                        </form>
+                        <div class="search-result">
+                            <div class="localSearchSimple"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="nav-categories-overlay"></div>
+<div class="overlay-search-box"></div>
+<!-- header-------------------------------->
+<!-- adplacement--------------------------->
+<div class="container-main">
+    <div class="d-block">
+        <div class="adplacement-container-row">
+            <div class="col-12">
+                <a href="#" class="adplacement-item mb-4">
+                    <div class="adplacement-sponsored_box">
+                        <img src="\images\Screenshot (13).png">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- adplacement--------------------------->
+<!-- slidre-product------------------------>
+<div class="container-main">
+    <div class="d-block">
+        <!--slider-amazing------------------------->
+        <section class="section-slider amazing-section pt-3">
+            <div class="container-amazing col-12">
+                <div class="col-lg-3 display-md-none pull-right">
+                    <div class="amazing-product text-center">
+                        <a href="#">
+                            <img src="~/theme/images/slider-amazing/shopping-cart.svg" alt="">
+                        </a>
+                        <h3 class="amazing-heading-title amazing-size-default">محصولات شگفت انگیز</h3>
+                        <a asp-action="Product_category" asp-route-s="1" class="view-all-amazing-btn">
+                            مشاهده همه
+                            <i class="uil uil-angle-left"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-12 pull-left">
+                    <div class="slider-widget-products mb-0">
+                        <div class="widget widget-product card">
+                            <header class="card-header">
+                                <span class="title-one">محصولات شگفت انگیز</span>
+                                <h3 class="card-title">
+                                    <a asp-action="Product_category" asp-route-s="1">
+                                        مشاهده همه
+                                    </a>
+                                </h3>
+                            </header>
+                            <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage"
+                                         style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
+                                        <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                                   data-target="#exampleModal">
+                                                    <img src="\images\items\شمع(1).jpg"
+                                                         class="img-fluid" alt="">
+                                                    <span class="icon-view">
+                                                        <strong><i class="fa fa-eye"></i></strong>
+                                                    </span>
+                                                </a>
+                                                <h2 class="post-title pt-4">
+                                                    <a href="#">
+                                                        شمع پراید
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    <del><span>6۰۰,۰۰۰<span>تومان</span></span></del>
+                                                    <ins><span>5۰۰,۰۰۰<span>تومان</span></span></ins>
+                                                </div>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li class="action-item like">
+                                                            <button class="btn btn-light add-product-wishes" type="submit">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item compare">
+                                                            <button class="btn btn-light btn-compare" type="submit">
+                                                                <i class="fa fa-random"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item add-to-cart">
+                                                            <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                                   data-target="#exampleModal">
+                                                    <img src="\images\items\Screenshot (6).png"
+                                                         class="img-fluid" alt="">
+                                                    <span class="icon-view">
+                                                        <strong><i class="fa fa-eye"></i></strong>
+                                                    </span>
+                                                </a>
+                                                <h2 class="post-title pt-4">
+                                                    <a href="#">
+                                                         بلبرینگ
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    <del><span>۳۲۰,۰۰۰<span>تومان</span></span></del>
+                                                    <ins><span>۲00,۰۰۰<span>تومان</span></span></ins>
+                                                </div>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li class="action-item like">
+                                                            <button class="btn btn-light add-product-wishes" type="submit">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item compare">
+                                                            <button class="btn btn-light btn-compare" type="submit">
+                                                                <i class="fa fa-random"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item add-to-cart">
+                                                            <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                                   data-target="#exampleModal">
+                                                    <img src="\images\items\صفحه کلاچچ(2).jpg"
+                                                         class="img-fluid" alt="">
+                                                    <span class="icon-view">
+                                                        <strong><i class="fa fa-eye"></i></strong>
+                                                    </span>
+                                                </a>
+                                                <h2 class="post-title pt-4">
+                                                    <a href="#">
+                                                        صفحه کلاج سمند
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    <del><span>7۰۰,۰۰۰<span>تومان</span></span></del>
+                                                    <ins><span>55۰,۰۰۰<span>تومان</span></span></ins>
+                                                </div>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li class="action-item like">
+                                                            <button class="btn btn-light add-product-wishes" type="submit">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item compare">
+                                                            <button class="btn btn-light btn-compare" type="submit">
+                                                                <i class="fa fa-random"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item add-to-cart">
+                                                            <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                                   data-target="#exampleModal">
+                                                    <img src="\images\items\لنت ترمز.jpg"
+                                                         class="img-fluid" alt="">
+                                                    <span class="icon-view">
+                                                        <strong><i class="fa fa-eye"></i></strong>
+                                                    </span>
+                                                </a>
+                                                <h2 class="post-title pt-4">
+                                                    <a href="#">
+                                                        لنت ترمز پراید
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    <del><span>۵۰۰,۰۰۰<span>تومان</span></span></del>
+                                                    <ins><span>۴۰۰,۰۰۰<span>تومان</span></span></ins>
+                                                </div>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li class="action-item like">
+                                                            <button class="btn btn-light add-product-wishes" type="submit">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item compare">
+                                                            <button class="btn btn-light btn-compare" type="submit">
+                                                                <i class="fa fa-random"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item add-to-cart">
+                                                            <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-item" style="width: 309.083px; margin-left: 10px;">
+                                            <div class="item">
+                                                <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                                   data-target="#exampleModal">
+                                                    <img src="\images\items\تسمه تایمم(2).jpg"
+                                                         class="img-fluid" alt="">
+                                                    <span class="icon-view">
+                                                        <strong><i class="fa fa-eye"></i></strong>
+                                                    </span>
+                                                </a>
+                                                <h2 class="post-title pt-4">
+                                                    <a href="#">
+                                                        تسمه تایم پژو
+                                                    </a>
+                                                </h2>
+                                                <div class="price">
+                                                    <del><span>۷۰۰,۰۰۰<span>تومان</span></span></del>
+                                                    <ins><span>45۰۰۰,۰۰۰<span>تومان</span></span></ins>
+                                                </div>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li class="action-item like">
+                                                            <button class="btn btn-light add-product-wishes" type="submit">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item compare">
+                                                            <button class="btn btn-light btn-compare" type="submit">
+                                                                <i class="fa fa-random"></i>
+                                                            </button>
+                                                        </li>
+                                                        <li class="action-item add-to-cart">
+                                                            <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- slider-moment------------------------->
+        <div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block">
+            <div class="slider-widget-products">
+                <div class="widget widget-product card">
+                    <header class="card-header">
+                        <span class="title-one">پیشنهادی های ما</span>
+                        <h3 class="card-title">
+                            <a asp-action="Product_category" class="view-all-amazing-btn">
+                                مشاهده همه
+                                <i class="uil uil-angle-left"></i>
+                            </a>
+                        </h3>
+                    </header>
+                    <div class="product-carousel owl-carousel owl-theme owl-rtl owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage"
+                                 style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2234px;">
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\چراغ جلو.jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع چراغ جلو
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۱۲,۰۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۱۰,۵۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\چراغ عقب.jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع چراغ عقب
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۳,۲۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۲,۵۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\دیسک ترمز(1).jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع صفحه دیسک
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۱۲,۰۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۱۰,۵۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\شمع(2).jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع شمع
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۳,۲۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۲,۵۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\فیلتر روغن(2).jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع فیلتر روغن
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۳,۵۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۲,۰۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\فیلتر هوا(1).jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع فیلتر هوا
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۳,۵۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۲,۰۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="owl-item active" style="width: 309.083px; margin-left: 10px;">
+                                    <div class="item">
+                                        <a href="#" class="d-block hover-img-link" data-toggle="modal"
+                                           data-target="#exampleModal">
+                                            <img src="\images\items\کمک فنر(3).jpg"
+                                                 class="img-fluid" alt="">
+                                            <span class="icon-view">
+                                                <strong><i class="fa fa-eye"></i></strong>
+                                            </span>
+                                        </a>
+                                        <h2 class="post-title">
+                                            <a href="#">
+                                                انواع کمک فنر
+                                            </a>
+                                        </h2>
+@*                                        <div class="price">
+                                            <del><span>۳,۵۰۰,۰۰۰<span>تومان</span></span></del>
+                                            <ins><span>۲,۰۰۰,۰۰۰<span>تومان</span></span></ins>
+                                        </div>*@
+                                        <div class="actions">
+                                            <ul>
+                                                <li class="action-item like">
+                                                    <button class="btn btn-light add-product-wishes" type="submit">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item compare">
+                                                    <button class="btn btn-light btn-compare" type="submit">
+                                                        <i class="fa fa-random"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="action-item add-to-cart">
+                                                    <button class="btn btn-light btn-add-to-cart" type="submit">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--elementor-->
+        <div class="elementor">
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6 items-1 pr">
+                <article class="blog-item">
+                    <figure class="figure">
+                        <div class="post-thumbnail">
+                            <img src="\images\Screenshot (13).png"
+                                 alt="camera">
+                        </div>
+
+                        <div class="post-title">
+                            <a href="#" class="d-block">
+                                <h5>خرید دوربین و دوربین مدار بسته</h5>
+                            </a>
+                            <p>خرید دوربین با ارزان ترین قیمت های بازار و تخفیف ویژه از سایت</p>
+                            <button type="button" class="btn btn-light btn-see-all">مشاهده همه</button>
+                        </div>
+                    </figure>
+                </article>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6 items-1 pr">
+                <article class="blog-item">
+                    <figure class="figure">
+                        <div class="post-thumbnail">
+                            <img src="\images\website-banner-h330-jelobandi-1024x395.jpg.webp" alt="camera">
+                        </div>
+
+                        <div class="post-title">
+                            <a href="#" class="d-block">
+                                <h5>خرید تبلت و انواع گوشی موبایل</h5>
+                            </a>
+                            <p>خرید تبلت با ارزان ترین قیمت های بازار و تخفیف ویژه از سایت</p>
+                            <button type="button" class="btn btn-light btn-see-all">مشاهده همه</button>
+                        </div>
+                    </figure>
+                </article>
+            </div>
+        </div>
+        <!--elementor-->
+    </div>
+</div>
+
+

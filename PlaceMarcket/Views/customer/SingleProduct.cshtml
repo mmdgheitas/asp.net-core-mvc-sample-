@@ -1,0 +1,539 @@
+﻿@{
+    Layout = "_Layout";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<be.user> User
+@model be.Items
+
+<style>
+    .btn {
+        width: 100%;
+        border-radius: 20px;
+        font-size: 14px;
+        margin-top: 10px;
+        border-color: #f5f5f5;
+        background-image: linear-gradient(135deg, #f99ca7 10%, #f15062 100%);
+    }
+
+    select {
+        width: 100%;
+        font-size: large;
+        border-radius: 30px;
+        background-color: #eee
+    }
+
+    option {
+        direction: rtl;
+        float: right
+    }
+
+    .text-success {
+        font-size: 1.2rem
+    }
+</style>
+
+
+
+<!-- arshive-product----------------------->
+<div class="container-main">
+    <div class="d-block">
+        <div class="page-content page-row">
+            <div class="main-row">
+                <div id="breadcrumb">
+                    <i class="mdi mdi-home"></i>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a asp-action="store">store</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                @Model.name
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg">
+                    <div class="product type-product">
+                        <div class="col-lg-5 col-xs-12 pr d-block" style="padding: 0;">
+                            <section class="product-gallery">
+                                <div class="gallery">
+                                    <div class="gallery-item">
+                                    </div>
+                                    <div class="gallery-item">
+                                        <div class="gallery-img">
+                                            <a href="#">
+                                                <img class="zoom-img" id="img-product-zoom"
+                                                     src="/images/items/@Model.img_src"
+                                                     data-zoom-image="/images/items/@Model.img_src"
+                                                     width="411" />
+                                                <div id="gallery_01f" style="width:420px;float:right;">
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </section>
+                    </div>
+                    <div class="col-lg-7 col-xs-12 pl mt-5 d-block">
+                        <section class="product-info">
+                            <div class="product-headline" style="display:inline">
+                                <h1 class="product-title">
+                                    @Model.name
+                                </h1>
+                            </div>
+                            <div class="product-attributes" style="display:inline-block">
+                                <div class="product-config">
+                                    <span class="product-title-en">
+
+                                    </span>
+                                    <div class="product-rate">
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                        <i class="fa fa-star active"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-config-wrapper">
+                                <div class="product-directory">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="col=lg-6 col-md-6 col-xs-12 pr">
+                                    <div class="product-variants">
+                                        <span>رنگ بندی: </span>
+                                        <ul class="js-product-variants">
+                                            <li class="ui-variant">
+                                                <label for="#" class="ui-variant-color">
+                                                    <span class="ui-variant-shape"
+                                                          style="background-color: #56abef"></span>
+                                                    <input type="radio" value="4" name="color" id="variant"
+                                                           class="js-variant-selector" checked="">
+                                                    <span class="ui-variant-check"></span>
+                                                </label>
+                                            </li>
+                                            <li class="ui-variant">
+                                                <label for="#" class="ui-variant-color">
+                                                    <span class="ui-variant-shape"
+                                                          style="background-color: #a97eca"></span>
+                                                    <input type="radio" value="4" name="color" id="variant"
+                                                           class="js-variant-selector">
+                                                    <span class="ui-variant-check"></span>
+                                                </label>
+                                            </li>
+                                            <li class="ui-variant">
+                                                <label for="#" class="ui-variant-color">
+                                                    <span class="ui-variant-shape"
+                                                          style="background-color: #4e4c4c"></span>
+                                                    <input type="radio" value="4" name="color" id="variant"
+                                                           class="js-variant-selector">
+                                                    <span class="ui-variant-check"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="product-params pt-3">
+                                        <ul data-title="ویژگی‌های محصول">
+                                            <li>
+                                                <span>ویژگی‌های خاص: </span>
+                                                <br />
+                                                <span>
+                                                    @Model.detail
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col=lg-6 col-md-6 col-xs-12 pr">
+                                    <form asp-action="AddToCart">
+                                        <div class="product-seller-info">
+                                            <input hidden name="Id" value="@Model.Id" />
+                                            <div class="seller-info-changable">
+                                                <div class="product-seller-row vendor">
+                                                    <span class="title"> فروشنده:</span>
+                                                    <a href="#" class="product-name">
+                                                        @{
+                                                            string seller = "null";
+                                                            seller = User.FindByIdAsync(Model.userId).Result.name;
+                                                        }
+                                                        @seller
+                                                    </a>
+                                                </div>
+                                                <div class="product-seller-row price">
+                                                    <span class="title"> قیمت:</span>
+                                                    <a href="#" class="product-name">
+                                                        <span class="amount">
+                                                            @Model.pris
+                                                            <span> هزار تومان</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title mt-3"> سایز:</span>
+                                                    <select name="size">
+                                                        @{
+                                                            if(Model.size != null)
+                                                            {
+                                                                var q = Model.size.Split('/');
+                                                                foreach (var i in q)
+                                                                {
+                                                                    <option>@i</option>
+                                                                }
+                                                            }
+
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div class="product-seller-row guarantee">
+                                                    <span class="title mt-3"> رنگ:</span>
+                                                    <select class="dropdown" name="color">
+                                                        @{
+                                                            if(Model.color != null)
+                                                            {
+                                                                                                                        var qq = Model.color.Split('/');
+                                                            foreach (var i in qq)
+                                                            {
+                                                                <option>@i</option>
+                                                            }
+
+                                                            }
+
+                                                        }
+                                                    </select>
+                                                </div>
+
+                                                <div class="product-seller-row add-to-cart">
+                                                    <button type="submit" class=" btn btn-primary">
+                                                        <span class="btn-add-to-cart-txt">افزودن به سبد خرید</span>
+                                                    </button>
+                                                    <div class="text-success text-center">
+                                                        <a asp-action="cart" class="text-success">@ViewBag.data</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="product-usp">
+                        <div class="product-feature">
+                            <div class="product-feature-col">
+                                <a href="#" class="product-feature-item">
+                                    <img src="/theme/images/page-single-product/delivery.svg">
+                                    امکان تحویل
+                                    <br>
+                                    اکسپرس
+                                </a>
+                            </div>
+                            <div class="product-feature-col">
+                                <a href="#" class="product-feature-item">
+                                    <img src="/theme/images/page-single-product/contact-us.svg">
+                                    ۷ روز هفته
+                                    <br>
+                                    ۲۴ ساعته
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab-box">
+                <ul class="tab nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="User-comments-tab" data-toggle="tab" href="#User-comments"
+                           role="tab" aria-controls="User-comments" aria-selected="false">
+                            <i class="mdi mdi-comment-text-multiple-outline"></i>
+                            نظرات کاربران
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="question-and-answer-tab" data-toggle="tab"
+                           href="#question-and-answer" role="tab" aria-controls="question-and-answer"
+                           aria-selected="false">
+                            <i class="mdi mdi-comment-question-outline"></i>
+                            پرسش و پاسخ
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg">
+                <div class="tabs-content">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade" id="User-comments" role="tabpanel"
+                             aria-labelledby="question-and-answer-tab">
+                            <div class="faq">
+                                <h2 class="params-headline">
+                                    نظرات
+                                    <span>نظر خود را مطرح کنید</span>
+                                </h2>
+                                <form asp-action="sabt" class="form-faq" method="post" enctype="multipart/form-data">
+                                    <div class="form-faq-row mt-4">
+                                        <div class="form-faq-col">
+                                            <div class="ui-textarea">
+                                                <textarea name="v" title="متن سوال"
+                                                          class="ui-textarea-field"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-faq-row mt-4">
+                                        <div class="form-faq-col form-faq-col-submit">
+                                            <button class="btn-tertiary btn btn-secondary" type="submit">
+                                                ثبت
+                                                نظر
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                @{
+                                    BLL.bladmin bla = new BLL.bladmin();
+                                    var v = bla.GetVotes();
+                                    if (v != null)
+                                    {
+                                        foreach (var i in v)
+                                        {
+                                            <div id="product-questions-list">
+                                                @if (i.admin != true)
+                                                {
+                                                    <div class="questions-list">
+                                                        <ul class="faq-list">
+                                                            <li class="is-question">
+                                                                <div class="section">
+                                                                    <div class="faq-header">
+                                                                        <span class="icon-faq">?</span>
+                                                                        <p class="h5">
+                                                                            نظر کاربر :
+                                                                        </p>
+                                                                    </div>
+                                                                    <p>
+                                                                        @i.text
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="questions-list answer-questions">
+                                                        <ul class="faq-list">
+                                                            <li class="is-question">
+                                                                <div class="section">
+                                                                    <div class="faq-header">
+                                                                        <span class="icon-faq">
+                                                                            <i class="mdi mdi-storefront"></i>
+                                                                        </span>
+                                                                        <p class="h5">
+                                                                            پاسخ فروشنده :
+                                                                        </p>
+                                                                    </div>
+                                                                    <p>
+                                                                        @i.text
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="question-and-answer" role="tabpanel"
+                             aria-labelledby="question-and-answer-tab">
+                            <div class="faq">
+                                <h2 class="params-headline">
+                                    پرسش و پاسخ
+                                    <span>پرسش خود را در مورد محصول مطرح نمایید</span>
+                                </h2>
+                                <form action="#" class="form-faq">
+                                    <div class="form-faq-row mt-4">
+                                        <div class="form-faq-col">
+                                            <div class="ui-textarea">
+                                                <textarea name="qa" title="متن سوال"
+                                                          class="ui-textarea-field"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-faq-row mt-4">
+                                        <div class="form-faq-col form-faq-col-submit">
+                                            <button class="btn-tertiary btn btn-secondary" type="submit">
+                                                ثبت
+                                                پرسش
+                                            </button>
+                                            <div class="form-faq-col-agreement d-inline-block mr-5">
+                                                <div class="form-auth-row">
+                                                    <label for="#" class="ui-checkbox mt-1">
+                                                        <input type="checkbox" value="1" name="login" id="remember">
+                                                        <span class="ui-checkbox-check"></span>
+                                                    </label>
+                                                    <label for="remember" class="remember-me mr-0">
+                                                        اولین پاسخی که به
+                                                        پرسش من داده شد، از طریق ایمیل به من اطلاع دهید.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="product-questions-list">
+                                    <div class="questions-list">
+                                        <ul class="faq-list">
+                                            <li class="is-question">
+                                                <div class="section">
+                                                    <div class="faq-header">
+                                                        <span class="icon-faq">?</span>
+                                                        <p class="h5">
+                                                            پرسش :
+                                                            <span>جلال</span>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+                                                        با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
+                                                        و مجله در ستون و سطرآنچنان که لازم است
+                                                    </p>
+                                                    <div class="faq-date">
+                                                        <em>۱۴ فروردین ۱۳۹۹</em>
+                                                    </div>
+                                                    <a href="#" class="js-add-answer-btn">
+                                                        به این پرسش پاسخ
+                                                        دهید
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="questions-list answer-questions">
+                                        <ul class="faq-list">
+                                            <li class="is-question">
+                                                <div class="section">
+                                                    <div class="faq-header">
+                                                        <span class="icon-faq">
+                                                            <i class="mdi mdi-storefront"></i>
+                                                        </span>
+                                                        <p class="h5">
+                                                            پاسخ فروشنده :
+                                                            <span>حسن</span>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+                                                        با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
+                                                        و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
+                                                        تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                                        کاربردی می باشد.
+                                                    </p>
+                                                    <div class="faq-date">
+                                                        <em>۱۴ فروردین ۱۳۹۹</em>
+                                                    </div>
+                                                    <a href="#" class="js-add-answer-btn">
+                                                        به این پرسش پاسخ
+                                                        دهید
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="questions-list">
+                                        <ul class="faq-list">
+                                            <li class="is-question">
+                                                <div class="section">
+                                                    <div class="faq-header">
+                                                        <span class="icon-faq">?</span>
+                                                        <p class="h5">
+                                                            پرسش :
+                                                            <span>اشکان</span>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+                                                        با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
+                                                        و مجله در ستون و سطرآنچنان که لازم است
+                                                    </p>
+                                                    <div class="faq-date">
+                                                        <em>۱۴ فروردین ۱۳۹۹</em>
+                                                    </div>
+                                                    <a href="#" class="js-add-answer-btn">
+                                                        به این پرسش پاسخ
+                                                        دهید
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="questions-list answer-questions">
+                                        <ul class="faq-list">
+                                            <li class="is-question">
+                                                <div class="section">
+                                                    <div class="faq-header">
+                                                        <span class="icon-faq">
+                                                            <i class="mdi mdi-storefront"></i>
+                                                        </span>
+                                                        <p class="h5">
+                                                            پاسخ فروشنده :
+                                                            <span>جواد</span>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+                                                        با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
+                                                        و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
+                                                        تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                                        کاربردی می باشد.
+                                                    </p>
+                                                    <div class="faq-date">
+                                                        <em>۱۴ فروردین ۱۳۹۹</em>
+                                                    </div>
+                                                    <a href="#" class="js-add-answer-btn">
+                                                        به این پرسش پاسخ
+                                                        دهید
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="questions-list">
+                                        <ul class="faq-list">
+                                            <li class="is-question">
+                                                <div class="section">
+                                                    <div class="faq-header">
+                                                        <span class="icon-faq">?</span>
+                                                        <p class="h5">
+                                                            پرسش :
+                                                            <span>رضا</span>
+                                                        </p>
+                                                    </div>
+                                                    <p>
+                                                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
+                                                        با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
+                                                        و مجله در ستون و سطرآنچنان که لازم است
+                                                    </p>
+                                                    <div class="faq-date">
+                                                        <em>۱۴ فروردین ۱۳۹۹</em>
+                                                    </div>
+                                                    <a href="#" class="js-add-answer-btn">
+                                                        به این پرسش پاسخ
+                                                        دهید
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- arshive-product----------------------->
